@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from "react-redux";
 import './ProductList.css'
 import CartItem from './CartItem';
-import {addItem} from "./CartSlice";
+import { addItem } from "./CartSlice";
 function ProductList({ onHomeClick }) {
+    const dispatch = useDispatch();
     const [showCart, setShowCart] = useState(false);
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
     const [addedToCart, setAddedToCart] = useState({});
@@ -256,12 +258,12 @@ function ProductList({ onHomeClick }) {
     };
 
     const handleAddToCart = (product) => {
-        dispatch(addItem(product));
-        setAddedToCart(  (prevState) => ({
-            ...prevState,
-            [product.name]: true
-        }));
-    };
+    dispatch(addItem(product));
+    setAddedToCart((prevState) => ({
+        ...prevState,
+        [product.name]: true
+    }));
+};
 
     return (
         <div>
@@ -300,7 +302,16 @@ function ProductList({ onHomeClick }) {
                                         <p className="product-title">{plant.name}</p>
                                         <p className="product-description">{plant.description}</p>
                                         <p className="product-price">{plant.cost}</p>
-                                        <button className="product-button" onClick={(plant) => handleAddToCart(plant)}>Add to cart</button>
+                                        <button 
+                                            className={`product-button ${addedToCart[plant.name] 
+                                                ? 'added-to-cart'
+                                                : ''
+                                            }`
+                                        }
+                                            onClick={() => handleAddToCart(plant)}
+                                        >
+                                            Add to cart
+                                        </button>
                                     </div>
                                 ))}
                             </div>
