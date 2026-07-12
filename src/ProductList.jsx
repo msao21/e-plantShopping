@@ -256,12 +256,11 @@ function ProductList({ onHomeClick }) {
     };
 
     const handleAddToCart = (product) => {
-        displatch(addItem(product))
+        dispatch(addItem(product));
         setAddedToCart(  (prevState) => ({
             ...prevState,
             [product.name]: true
         }));
-
     };
 
     return (
